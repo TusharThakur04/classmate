@@ -13,3 +13,53 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  flows     Flow[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Flow {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  trigger   Trigger?
+  actions   Action[]
+  }
+
+  model AvailableTrigger{
+    id             Int     @id @default(autoincrement())
+    triggerName    String  
+    trigger        Trigger[]
+  }
+
+  model Trigger{
+    id                    String @id  @default(cuid())
+    name                  String
+    flowId                String @unique
+    flow                  Flow   @relation(fields:[flowId], references: [id])
+    availableTriggerId    Int
+    availableTrigger      AvailableTrigger @relation(fields: [availableTriggerId], references: [id])
+
+  }
+
+  model AvailableAction{
+    id             Int     @id @default(autoincrement())
+    actionName     String
+    action         Action[]
+  }
+
+  model Action{
+    id                 String @id @default(cuid())
+    name               String
+    flowId             String
+    flow               Flow   @relation(fields:[flowId], references: [id])
+    availableActionId  Int
+    availableAction    AvailableAction @relation(fields: [availableActionId], references: [id])
+
+  }
+
