@@ -29,37 +29,49 @@ model Flow {
   user      User     @relation(fields: [userId], references: [id])
   trigger   Trigger?
   actions   Action[]
-  }
+  flowRun   FlowRun?
+}
 
-  model AvailableTrigger{
-    id             Int     @id @default(autoincrement())
-    triggerName    String  
-    trigger        Trigger[]
-  }
+model AvailableTrigger{
+  id             Int     @id @default(autoincrement())
+  triggerName    String  
+  trigger        Trigger[]
+}
 
-  model Trigger{
-    id                    String @id  @default(cuid())
-    name                  String
-    flowId                String @unique
-    flow                  Flow   @relation(fields:[flowId], references: [id])
-    availableTriggerId    Int
-    availableTrigger      AvailableTrigger @relation(fields: [availableTriggerId], references: [id])
+model Trigger{
+  id                    String @id  @default(cuid())
+  name                  String
+  flowId                String @unique
+  flow                  Flow   @relation(fields:[flowId], references: [id])
+  availableTriggerId    Int
+  availableTrigger      AvailableTrigger @relation(fields: [availableTriggerId], references: [id])
+}
 
-  }
+model AvailableAction{
+  id             Int     @id @default(autoincrement())
+  actionName     String
+  action         Action[]
+}
 
-  model AvailableAction{
-    id             Int     @id @default(autoincrement())
-    actionName     String
-    action         Action[]
-  }
+model Action{
+  id                 String @id @default(cuid())
+  name               String
+  flowId             String
+  flow               Flow   @relation(fields:[flowId], references: [id])
+  availableActionId  Int
+  availableAction    AvailableAction @relation(fields: [availableActionId], references: [id])
 
-  model Action{
-    id                 String @id @default(cuid())
-    name               String
-    flowId             String
-    flow               Flow   @relation(fields:[flowId], references: [id])
-    availableActionId  Int
-    availableAction    AvailableAction @relation(fields: [availableActionId], references: [id])
+}
 
-  }
+model FlowRun{
+  id             String         @id @default(cuid())
+  flowId         String         @unique
+  flow           Flow           @relation(fields: [flowId], references: [id])
+  flowRunOutbox  FlowRunOutbox?
+}
 
+model FlowRunOutbox{
+  id        String  @id @default(cuid())
+  flowRunId String  @unique
+  flowRun   FlowRun @relation(fields: [flowRunId], references: [id])
+}
