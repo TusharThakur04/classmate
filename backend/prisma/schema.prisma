@@ -6,7 +6,6 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
 }
 
 datasource db {
@@ -17,7 +16,7 @@ datasource db {
 model User {
   id        String   @id @default(cuid())
   email     String   @unique
-  name      String?
+  name      String
   flows     Flow[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -29,7 +28,7 @@ model Flow {
   user      User     @relation(fields: [userId], references: [id])
   trigger   Trigger?
   actions   Action[]
-  flowRun   FlowRun?
+  flowRun   FlowRun[]
 }
 
 model AvailableTrigger{
@@ -65,7 +64,7 @@ model Action{
 
 model FlowRun{
   id             String         @id @default(cuid())
-  flowId         String         @unique
+  flowId         String
   flow           Flow           @relation(fields: [flowId], references: [id])
   flowRunOutbox  FlowRunOutbox?
 }
