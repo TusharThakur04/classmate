@@ -66,6 +66,7 @@ model FlowRun{
   id             String         @id @default(cuid())
   flowId         String
   flow           Flow           @relation(fields: [flowId], references: [id])
+  metadata       Json
   flowRunOutbox  FlowRunOutbox?
 }
 
