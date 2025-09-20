@@ -10,8 +10,12 @@ router.post("/:userid/:flowid", async (req, res) => {
 
   await prisma.$transaction(async (tx) => {
     const flowRun = await tx.flowRun.create({
-      data: { flowId: flowid },
+      data: {
+        flowId: flowid,
+        metadata: data,
+      },
     });
+
     const flowRunOutbox = await tx.flowRunOutbox.create({
       data: {
         flowRunId: flowRun.id,
