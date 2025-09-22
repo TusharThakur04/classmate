@@ -20,8 +20,17 @@ const startProcessor = async () => {
     });
 
     console.log("sent");
+
+    await prisma.flowRunOutbox.deleteMany({
+      where: {
+        id: {
+          in: outbox.map((o) => o.id),
+        },
+      },
+    });
+
+    console.log("deleted the pushed flow from flowRunOutbox");
     await producer.disconnect();
-    await new Promise((resolve) => setTimeout(resolve, 2000));
   }
 };
 
