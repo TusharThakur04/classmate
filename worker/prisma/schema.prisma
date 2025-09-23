@@ -1,0 +1,76 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String
+  flows     Flow[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Flow {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  trigger   Trigger?
+  actions   Action[]
+  flowRun   FlowRun[]
+}
+
+model AvailableTrigger{
+  id             Int     @id @default(autoincrement())
+  triggerName    String  
+  trigger        Trigger[]
+}
+
+model Trigger{
+  id                    String @id  @default(cuid())
+  name                  String
+  flowId                String @unique
+  flow                  Flow   @relation(fields:[flowId], references: [id])
+  availableTriggerId    Int
+  availableTrigger      AvailableTrigger @relation(fields: [availableTriggerId], references: [id])
+}
+
+model AvailableAction{
+  id             Int     @id @default(autoincrement())
+  actionName     String
+  action         Action[]
+}
+
+model Action{
+  id                 String @id @default(cuid())
+  name               String
+  flowId             String
+  flow               Flow   @relation(fields:[flowId], references: [id])
+  availableActionId  Int
+  availableAction    AvailableAction @relation(fields: [availableActionId], references: [id])
+
+}
+
+model FlowRun{
+  id             String         @id @default(cuid())
+  flowId         String
+  flow           Flow           @relation(fields: [flowId], references: [id])
+  metadata       Json
+  flowRunOutbox  FlowRunOutbox?
+}
+
+model FlowRunOutbox{
+  id        String  @id @default(cuid())
+  flowRunId String  @unique
+  flowRun   FlowRun @relation(fields: [flowRunId], references: [id])
+}
