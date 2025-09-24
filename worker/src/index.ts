@@ -20,6 +20,10 @@ const run = async () => {
       });
 
       await new Promise((resolve) => setTimeout(resolve, 5000));
+
+      await consumer.commitOffsets([
+        { topic, partition, offset: (Number(message.offset) + 1).toString() },
+      ]);
     },
   });
 };
