@@ -39,7 +39,7 @@ model AvailableTrigger{
 
 model Trigger{
   id                    String @id  @default(cuid())
-  name                  String
+  metadata              Json?
   flowId                String @unique
   flow                  Flow   @relation(fields:[flowId], references: [id])
   availableTriggerId    Int
@@ -54,7 +54,7 @@ model AvailableAction{
 
 model Action{
   id                 String @id @default(cuid())
-  name               String
+  metadata           Json?
   flowId             String
   flow               Flow   @relation(fields:[flowId], references: [id])
   availableActionId  Int
