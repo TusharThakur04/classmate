@@ -5,7 +5,7 @@ const router = Router();
 const prisma = new PrismaClient();
 
 router.post("/mirrorUser", async (req: Request, res: Response) => {
-  const { email, name } = req.body;
+  const { id, email, name } = req.body;
 
   const emailExists = await prisma.user.findUnique({
     where: { email: req.body.email },
@@ -17,6 +17,7 @@ router.post("/mirrorUser", async (req: Request, res: Response) => {
 
   const mirrorUser = await prisma.user.create({
     data: {
+      id,
       email,
       name,
     },
