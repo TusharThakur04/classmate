@@ -1,8 +1,8 @@
 export interface FlowReqBody {
   userId: string;
-  availableTriggerId: string;
+  availableTriggerId: number;
   action: {
-    availableActionId: string;
-    actionMetadata: string;
+    availableActionId: number;
+    // actionMetadata: { [key: string]: string };
   }[];
 }
