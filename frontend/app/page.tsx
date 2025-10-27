@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 'use client';
 import { Navbar } from '@/components/Navbar';
 import { useAuth, useUser } from '@clerk/nextjs';
@@ -38,8 +37,4 @@ export default function Home() {
       <Footer />
     </>
   );
-=======
-export default function Home() {
-  return <div className="flex "></div>;
->>>>>>> ac65d09e4ba55dfc17d7bfe195ef5b4de557fb57
 }
