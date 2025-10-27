@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 @import 'tailwindcss';
 
 @theme {
@@ -8,3 +9,6 @@
 body {
   background-color: #f2f1ec;
 }
+=======
+@import "tailwindcss";
+>>>>>>> ac65d09e4ba55dfc17d7bfe195ef5b4de557fb57

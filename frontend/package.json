@@ -9,6 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+<<<<<<< HEAD
     "@clerk/nextjs": "^6.34.0",
     "axios": "^1.12.2",
     "eslint-config-prettier": "^10.1.8",
@@ -28,5 +29,20 @@
     "prettier-plugin-tailwindcss": "^0.7.1",
     "tailwindcss": "^4",
     "typescript": "^5"
+=======
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "next": "16.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@tailwindcss/postcss": "^4",
+    "tailwindcss": "^4",
+    "eslint": "^9",
+    "eslint-config-next": "16.0.0"
+>>>>>>> ac65d09e4ba55dfc17d7bfe195ef5b4de557fb57
   }
 }
