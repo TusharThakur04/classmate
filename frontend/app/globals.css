@@ -1,1 +1,10 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+
+@theme {
+  --color-primary: var(--color-gray-400);
+  --color-secondary: var(--color-gray-100);
+}
+
+body {
+  background-color: #f2f1ec;
+}
