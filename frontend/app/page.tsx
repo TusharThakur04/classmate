@@ -1,12 +1,8 @@
 'use client';
-import { Navbar } from '@/components/Navbar';
-import { useAuth, useUser } from '@clerk/nextjs';
+import { SignedIn, SignedOut, useAuth, useUser } from '@clerk/nextjs';
 import { useEffect } from 'react';
 import axios from 'axios';
-import { ClerkLoaded, ClerkLoading } from '@clerk/nextjs';
-import { Loader } from '@/components/Loader';
 import { Hero } from '@/components/Hero';
-import { Footer } from '@/components/Footer';
 
 export default function Home() {
   const { isSignedIn } = useAuth();
@@ -24,17 +20,12 @@ export default function Home() {
 
   return (
     <>
-      <div className="min-h-[91vh] w-full">
-        <ClerkLoading>
-          <Loader />
-        </ClerkLoading>
-        <ClerkLoaded>
-          <Navbar />
-        </ClerkLoaded>
-
-        <Hero />
+      <div className="min-h-[100vh] w-full">
+        <SignedOut>
+          <Hero />
+        </SignedOut>
+        <SignedIn>Dashboard</SignedIn>
       </div>
-      <Footer />
     </>
   );
 }
