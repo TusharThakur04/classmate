@@ -22,6 +22,7 @@ const getFlow = async (req: Request<{ userId: string }>, res: Response) => {
           availableAction: {
             select: { actionName: true },
           },
+          order: true,
         },
       },
       flowRun: true,
