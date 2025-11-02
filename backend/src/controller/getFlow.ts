@@ -25,7 +25,6 @@ const getFlow = async (req: Request<{ userId: string }>, res: Response) => {
           order: true,
         },
       },
-      flowRun: true,
     },
   });
 
