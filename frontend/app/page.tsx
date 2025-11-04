@@ -3,6 +3,7 @@ import { SignedIn, SignedOut, useAuth, useUser } from '@clerk/nextjs';
 import { useEffect } from 'react';
 import axios from 'axios';
 import { Hero } from '@/components/Hero';
+import { Dashboard } from '@/components/Dashboard';
 
 export default function Home() {
   const { isSignedIn } = useAuth();
@@ -10,7 +11,7 @@ export default function Home() {
 
   useEffect(() => {
     if (isSignedIn && user) {
-      axios.post('/api/sync-user', {
+      axios.post('http://localhost:4000/users/mirrorUser', {
         id: user.id,
         email: user.primaryEmailAddress?.emailAddress,
         name: user.fullName,
@@ -20,12 +21,16 @@ export default function Home() {
 
   return (
     <>
-      <div className="min-h-[100vh] w-full">
-        <SignedOut>
+      <SignedOut>
+        <div className="min-h-[85vh] w-full">
           <Hero />
-        </SignedOut>
-        <SignedIn>Dashboard</SignedIn>
-      </div>
+        </div>
+      </SignedOut>
+      <SignedIn>
+        <div className="min-h-[78vh] w-full">
+          <Dashboard />
+        </div>
+      </SignedIn>
     </>
   );
 }
