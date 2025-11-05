@@ -1,6 +1,4 @@
 import { FlowData } from '@/types/flowData';
-import { div, image, img } from 'motion/react-client';
-import Image from 'next/image';
 
 export const FlowTable = ({ flowData }: { flowData: FlowData[] }) => {
   return (
@@ -49,7 +47,7 @@ export const FlowTable = ({ flowData }: { flowData: FlowData[] }) => {
               <td className="px-4 py-3">
                 <label
                   htmlFor={`toggle-${index}`}
-                  className="relative inline-flex h-6 w-10 cursor-pointer rounded-full border-3 border-gray-600/60 bg-gray-400/70 has-[input:checked]:bg-gray-500/95"
+                  className="relative inline-flex h-6 w-10 cursor-pointer rounded-full border-3 border-gray-500/45 bg-gray-400/70 has-[input:checked]:bg-gray-500/95"
                 >
                   <input type="checkbox" id={`toggle-${index}`} className="peer sr-only"></input>
                   <span className="absolute top-1/40 h-[99%] w-[55%] rounded-full border border-gray-950 bg-white transition-all duration-350 peer-checked:translate-x-4"></span>
