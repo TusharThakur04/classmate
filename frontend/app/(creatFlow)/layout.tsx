@@ -1,9 +1,7 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
-import './globals.css';
+import '../globals.css';
 import { ClerkLoaded, ClerkLoading, ClerkProvider } from '@clerk/nextjs';
-import { Footer } from '@/components/Footer';
-import { Navbar } from '@/components/Navbar';
 import { Loader } from '@/components/Loader';
 
 const geistSans = Geist({
@@ -33,11 +31,7 @@ export default function RootLayout({
           <ClerkLoading>
             <Loader />
           </ClerkLoading>
-          <ClerkLoaded>
-            <Navbar />
-            {children}
-            <Footer />
-          </ClerkLoaded>
+          <ClerkLoaded>{children}</ClerkLoaded>
         </body>
       </html>
     </ClerkProvider>
