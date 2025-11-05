@@ -21,27 +21,25 @@ export const FlowTable = ({ flowData }: { flowData: FlowData[] }) => {
               <td className="px-4 py-3 font-medium text-gray-800">{flow.name}</td>
 
               <td className="px-2 py-3">
-                <div className="flex flex-wrap items-center gap-2">
-                  {flow.actions.map((action, index) => (
-                    <>
-                      <img key={index + 1} alt="gmail" />
-                      <img
-                        key={index}
-                        src={
-                          action.availableAction.actionName === 'save to drive'
-                            ? '/icons/drive.svg'
-                            : '/icons/calendar.svg'
-                        }
-                        alt={
-                          action.availableAction.actionName === 'save to drive'
-                            ? 'Drive'
-                            : 'Calendar'
-                        }
-                        className="h-6 w-6 object-contain"
-                      />
-                    </>
-                  ))}
-                </div>
+                {flow.actions.map((action, index) => (
+                  <div
+                    key={action.availableAction.actionName + index}
+                    className="flex items-center gap-1"
+                  >
+                    <img alt="gmail" className="h-6 w-6 object-contain" />
+                    <img
+                      src={
+                        action.availableAction.actionName === 'save to drive'
+                          ? '/icons/drive.svg'
+                          : '/icons/calendar.svg'
+                      }
+                      alt={
+                        action.availableAction.actionName === 'save to drive' ? 'Drive' : 'Calendar'
+                      }
+                      className="h-6 w-6 object-contain"
+                    />
+                  </div>
+                ))}
               </td>
 
               <td className="px-4 py-3">
