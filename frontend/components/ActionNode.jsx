@@ -76,7 +76,7 @@ export function ActionNode(props) {
           </div>
         </div>
       )}
-
+      <Handle type="target" position={Position.Top} />
       <Handle type="source" position={Position.Bottom} />
     </div>
   );
