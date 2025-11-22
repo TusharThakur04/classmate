@@ -1,12 +1,40 @@
 import { useState } from 'react';
 import { Handle, Position } from '@xyflow/react';
+import { useReactFlow } from '@xyflow/react';
 
 export function ActionNode(props) {
+  const { setNodes } = useReactFlow();
   const [open, setOpen] = useState(false);
   const [action, setAction] = useState(false);
 
   return (
     <div className="relative h-10 w-35 rounded border border-gray-500 bg-white p-2 shadow-lg">
+      <div
+        className="absolute -top-1 -right-1 m-1 cursor-pointer text-gray-700 hover:text-gray-800"
+        onClick={() =>
+          setNodes((nodes) =>
+            nodes.filter((node) => {
+              return node.id !== props.id;
+            })
+          )
+        }
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          class="lucide lucide-x-icon lucide-x h-[0.8rem] w-[0.8rem]"
+        >
+          <path d="M18 6 6 18" />
+          <path d="m6 6 12 12" />
+        </svg>
+      </div>
       <div className="flex h-full w-full items-center justify-between px-1">
         {action ? (
           <>
@@ -54,14 +82,14 @@ export function ActionNode(props) {
 
       {open && (
         <div className="absolute -top-3 right-0 z-50 w-30 translate-x-[90%] -translate-y-10 rounded-md border border-gray-300 bg-white p-2 shadow-lg">
-          <h3 className="mb-1 text-xs font-semibold text-gray-700">Select Trigger</h3>
+          <h3 className="mb-1 text-[0.7rem] font-semibold text-gray-700">Select Trigger</h3>
 
           <div
             onClick={() => {
               setAction((prev) => !prev);
               setOpen(false);
             }}
-            className="cursor-pointer rounded p-1 text-xs hover:bg-gray-100"
+            className="cursor-pointer rounded p-1 text-[0.6rem] hover:bg-gray-100"
           >
             📅 Set Reminder
           </div>
@@ -70,7 +98,7 @@ export function ActionNode(props) {
               setAction((prev) => !prev);
               setOpen(false);
             }}
-            className="cursor-pointer rounded p-1 text-xs hover:bg-gray-100"
+            className="cursor-pointer rounded p-1 text-[0.6rem] hover:bg-gray-100"
           >
             📁 Save to drive
           </div>

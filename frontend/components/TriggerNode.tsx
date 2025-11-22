@@ -54,14 +54,14 @@ export function TriggerNode(props) {
 
       {open && (
         <div className="absolute -top-3 right-0 z-50 w-28 translate-x-[90%] -translate-y-10 rounded-md border border-gray-300 bg-white p-2 shadow-lg">
-          <h3 className="mb-1 text-xs font-semibold text-gray-700">Select Trigger</h3>
+          <h3 className="mb-1 text-[0.7rem] font-semibold text-gray-700">Select Trigger</h3>
 
           <div
             onClick={() => {
               setTrigger((prev) => !prev);
               setOpen(false);
             }}
-            className="cursor-pointer rounded p-1 text-xs hover:bg-gray-100"
+            className="cursor-pointer rounded px-1 text-[0.6rem] hover:bg-gray-100"
           >
             📧 Gmail
           </div>
