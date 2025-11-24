@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { Handle, Position } from '@xyflow/react';
 import { useReactFlow } from '@xyflow/react';
 
-export function ActionNode(props) {
+export function ActionNode({ id, data }) {
+  const { setFlowData } = data;
   const { setNodes } = useReactFlow();
   const [open, setOpen] = useState(false);
   const [action, setAction] = useState(false);
@@ -14,7 +15,7 @@ export function ActionNode(props) {
         onClick={() =>
           setNodes((nodes) =>
             nodes.filter((node) => {
-              return node.id !== props.id;
+              return node.id !== id;
             })
           )
         }
@@ -29,7 +30,7 @@ export function ActionNode(props) {
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
-          class="lucide lucide-x-icon lucide-x h-[0.8rem] w-[0.8rem]"
+          className="lucide lucide-x-icon lucide-x h-[0.8rem] w-[0.8rem]"
         >
           <path d="M18 6 6 18" />
           <path d="m6 6 12 12" />
@@ -50,7 +51,13 @@ export function ActionNode(props) {
               strokeLinecap="round"
               strokeLinejoin="round"
               className="lucide lucide-trash-icon lucide-trash cursor-pointer text-gray-500 transition hover:scale-95"
-              onClick={() => setTrigger((prev) => !prev)}
+              onClick={() => {
+                setAction((prev) => !prev);
+                setFlowData((prev) => ({
+                  ...prev,
+                  action: prev.action.filter((a) => a.nodeId !== id),
+                }));
+              }}
             >
               <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
               <path d="M3 6h18" />
@@ -88,6 +95,10 @@ export function ActionNode(props) {
             onClick={() => {
               setAction((prev) => !prev);
               setOpen(false);
+              setFlowData((prev) => ({
+                ...prev,
+                action: [...prev.action, { availableActionId: 1, nodeId: id }],
+              }));
             }}
             className="cursor-pointer rounded p-1 text-[0.6rem] hover:bg-gray-100"
           >
@@ -97,6 +108,10 @@ export function ActionNode(props) {
             onClick={() => {
               setAction((prev) => !prev);
               setOpen(false);
+              setFlowData((prev) => ({
+                ...prev,
+                action: [...prev.action, { availableActionId: 2, nodeId: id }],
+              }));
             }}
             className="cursor-pointer rounded p-1 text-[0.6rem] hover:bg-gray-100"
           >

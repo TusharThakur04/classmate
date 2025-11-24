@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Handle, Position } from '@xyflow/react';
 
-export function TriggerNode(props) {
+export function TriggerNode({ data }: { data: any }) {
+  const { flowData, setFlowData } = data;
   const [open, setOpen] = useState(false);
   const [trigger, setTrigger] = useState(false);
 
@@ -22,7 +23,15 @@ export function TriggerNode(props) {
               strokeLinecap="round"
               strokeLinejoin="round"
               className="lucide lucide-trash-icon lucide-trash cursor-pointer text-gray-500 transition hover:scale-95"
-              onClick={() => setTrigger((prev) => !prev)}
+              onClick={() => {
+                setTrigger((prev) => !prev);
+                setFlowData((prev: any) => {
+                  return {
+                    ...prev,
+                    availableTriggerId: null,
+                  };
+                });
+              }}
             >
               <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
               <path d="M3 6h18" />
@@ -60,6 +69,12 @@ export function TriggerNode(props) {
             onClick={() => {
               setTrigger((prev) => !prev);
               setOpen(false);
+              setFlowData((prev: any) => {
+                return {
+                  ...prev,
+                  availableTriggerId: 1,
+                };
+              });
             }}
             className="cursor-pointer rounded px-1 text-[0.6rem] hover:bg-gray-100"
           >

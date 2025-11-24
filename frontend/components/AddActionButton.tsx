@@ -2,7 +2,7 @@
 
 import { Panel, useReactFlow } from '@xyflow/react';
 
-export function AddActionPanel() {
+export function AddActionPanel({ setFlowData }: { setFlowData: any }) {
   const { setNodes } = useReactFlow();
 
   const handleAddAction = () => {
@@ -12,7 +12,7 @@ export function AddActionPanel() {
         id,
         type: 'action',
         position: { x: 0, y: nodes[nodes.length - 1].position.y + 100 || 100 },
-        data: { label: `Action ${nodes.length + 1}` },
+        data: { label: `Action ${nodes.length + 1}`, setFlowData },
       };
       return [...nodes, newNode];
     });

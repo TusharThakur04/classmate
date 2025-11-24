@@ -1,5 +1,5 @@
 'use client';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import {
   ReactFlow,
   applyNodeChanges,
@@ -14,19 +14,37 @@ import { TriggerNode } from '@/components/TriggerNode';
 import { ActionNode } from '@/components/ActionNode';
 import CustomEdge from '@/components/NodeEdge';
 import { AddActionPanel } from '@/components/AddActionButton';
-
-const nodeTypes = {
-  trigger: TriggerNode,
-  action: ActionNode,
-};
-const edgeTypes = {
-  'custom-edge': CustomEdge,
-};
-const initialNodes = [
-  { id: 'n1', type: 'trigger', position: { x: 0, y: 0 }, data: { label: 'Trigger Node' } },
-];
+import { useUser } from '@clerk/nextjs';
 
 export default function CreatFlow() {
+  const { user } = useUser();
+  const userId = user ? user.id : '';
+
+  const initialFlowData = {
+    userId,
+    flowName: null,
+    availableTriggerId: null,
+    action: [],
+  };
+
+  const [flowData, setFlowData] = useState(initialFlowData);
+
+  const nodeTypes = {
+    trigger: TriggerNode,
+    action: ActionNode,
+  };
+  const edgeTypes = {
+    'custom-edge': CustomEdge,
+  };
+  const initialNodes = [
+    {
+      id: 'n1',
+      type: 'trigger',
+      position: { x: 0, y: 0 },
+      data: { label: 'Trigger Node', setFlowData },
+    },
+  ];
+
   const [nodes, setNodes] = useState(initialNodes);
   const [edges, setEdges] = useState([]);
 
@@ -44,6 +62,10 @@ export default function CreatFlow() {
     []
   );
 
+  useEffect(() => {
+    console.log(flowData);
+  }, [flowData]);
+
   return (
     <div className="h-screen w-screen">
       <ReactFlow
@@ -56,7 +78,7 @@ export default function CreatFlow() {
         onConnect={onConnect}
         fitView
       >
-        <AddActionPanel />
+        <AddActionPanel setFlowData={setFlowData} />
         <Controls />
         <MiniMap />
         <Background gap={12} size={1.3} />
