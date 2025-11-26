@@ -2,23 +2,29 @@ import { useState } from 'react';
 import { Handle, Position } from '@xyflow/react';
 import { useReactFlow } from '@xyflow/react';
 
-export function ActionNode({ id, data }) {
+export function ActionNode({ id, data, edges, setPopup }) {
   const { setFlowData } = data;
+
   const { setNodes } = useReactFlow();
   const [open, setOpen] = useState(false);
-  const [action, setAction] = useState(false);
+  const [action, setAction] = useState(null);
 
   return (
     <div className="relative h-10 w-35 rounded border border-gray-500 bg-white p-2 shadow-lg">
       <div
         className="absolute -top-1 -right-1 m-1 cursor-pointer text-gray-700 hover:text-gray-800"
-        onClick={() =>
+        onClick={() => {
           setNodes((nodes) =>
             nodes.filter((node) => {
               return node.id !== id;
             })
-          )
-        }
+          );
+
+          setFlowData((prev) => ({
+            ...prev,
+            action: prev.action.filter((a) => a.nodeId !== id),
+          }));
+        }}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -39,7 +45,7 @@ export function ActionNode({ id, data }) {
       <div className="flex h-full w-full items-center justify-between px-1">
         {action ? (
           <>
-            <span className="text-sm font-medium text-gray-800">Gmail Trigger</span>
+            <span className="text-sm font-medium text-gray-800">{action}</span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="19"
@@ -77,7 +83,19 @@ export function ActionNode({ id, data }) {
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
-              onClick={() => setOpen((prev) => !prev)}
+              onClick={() => {
+                console.log('Edges:', edges);
+                const isConnected = edges.some((e) => e.target === id);
+                console.log('Is Connected:', isConnected);
+                if (isConnected) {
+                  setOpen((prev) => !prev);
+                } else {
+                  setPopup(true);
+                  setTimeout(() => {
+                    setPopup(false);
+                  }, 4000);
+                }
+              }}
               className="h-[20px] w-[30px] cursor-pointer text-gray-500 transition hover:scale-95"
             >
               <line x1="12" y1="5" x2="12" y2="19"></line>
@@ -93,7 +111,7 @@ export function ActionNode({ id, data }) {
 
           <div
             onClick={() => {
-              setAction((prev) => !prev);
+              setAction('Set Reminder');
               setOpen(false);
               setFlowData((prev) => ({
                 ...prev,
@@ -106,7 +124,7 @@ export function ActionNode({ id, data }) {
           </div>
           <div
             onClick={() => {
-              setAction((prev) => !prev);
+              setAction('Save to drive');
               setOpen(false);
               setFlowData((prev) => ({
                 ...prev,

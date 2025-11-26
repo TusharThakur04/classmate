@@ -8,6 +8,7 @@ import {
   Controls,
   MiniMap,
   Background,
+  Panel,
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { TriggerNode } from '@/components/TriggerNode';
@@ -15,6 +16,7 @@ import { ActionNode } from '@/components/ActionNode';
 import CustomEdge from '@/components/NodeEdge';
 import { AddActionPanel } from '@/components/AddActionButton';
 import { useUser } from '@clerk/nextjs';
+import PopUp from '@/components/PopUp';
 
 export default function CreatFlow() {
   const { user } = useUser();
@@ -31,7 +33,7 @@ export default function CreatFlow() {
 
   const nodeTypes = {
     trigger: TriggerNode,
-    action: ActionNode,
+    action: (nodeProps) => <ActionNode {...nodeProps} edges={edges} setPopup={setPopup} />,
   };
   const edgeTypes = {
     'custom-edge': CustomEdge,
@@ -48,6 +50,8 @@ export default function CreatFlow() {
   const [nodes, setNodes] = useState(initialNodes);
   const [edges, setEdges] = useState([]);
 
+  const [popup, setPopup] = useState(false);
+
   const onNodesChange = useCallback(
     (changes) => setNodes((nodesSnapshot) => applyNodeChanges(changes, nodesSnapshot)),
     []
@@ -59,7 +63,7 @@ export default function CreatFlow() {
   const onConnect = useCallback(
     (params) =>
       setEdges((edgesSnapshot) => addEdge({ ...params, type: 'custom-edge' }, edgesSnapshot)),
-    []
+    [edges]
   );
 
   useEffect(() => {
@@ -78,6 +82,8 @@ export default function CreatFlow() {
         onConnect={onConnect}
         fitView
       >
+        {popup && <PopUp />}
+
         <AddActionPanel setFlowData={setFlowData} />
         <Controls />
         <MiniMap />
