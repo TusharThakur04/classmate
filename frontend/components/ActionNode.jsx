@@ -5,7 +5,7 @@ import { useReactFlow } from '@xyflow/react';
 export function ActionNode({ id, data }) {
   const { setFlowData, setPopup, isConnected } = data;
 
-  const { setNodes } = useReactFlow();
+  const { setNodes, setEdges } = useReactFlow();
   const [open, setOpen] = useState(false);
   const [action, setAction] = useState(null);
 
@@ -19,7 +19,7 @@ export function ActionNode({ id, data }) {
               return node.id !== id;
             })
           );
-
+          setEdges((edges) => edges.filter((edge) => edge.source !== id && edge.target !== id));
           setFlowData((prev) => ({
             ...prev,
             action: prev.action.filter((a) => a.nodeId !== id),
