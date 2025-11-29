@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { Handle, Position } from '@xyflow/react';
 import { useReactFlow } from '@xyflow/react';
 
-export function ActionNode({ id, data, edges, setPopup }) {
-  const { setFlowData } = data;
+export function ActionNode({ id, data }) {
+  const { setFlowData, setPopup, isConnected } = data;
 
   const { setNodes } = useReactFlow();
   const [open, setOpen] = useState(false);
@@ -84,9 +84,6 @@ export function ActionNode({ id, data, edges, setPopup }) {
               strokeLinecap="round"
               strokeLinejoin="round"
               onClick={() => {
-                console.log('Edges:', edges);
-                const isConnected = edges.some((e) => e.target === id);
-                console.log('Is Connected:', isConnected);
                 if (isConnected) {
                   setOpen((prev) => !prev);
                 } else {

@@ -1,5 +1,5 @@
 'use client';
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useMemo } from 'react';
 import {
   ReactFlow,
   applyNodeChanges,
@@ -31,10 +31,6 @@ export default function CreatFlow() {
 
   const [flowData, setFlowData] = useState(initialFlowData);
 
-  const nodeTypes = {
-    trigger: TriggerNode,
-    action: (nodeProps) => <ActionNode {...nodeProps} edges={edges} setPopup={setPopup} />,
-  };
   const edgeTypes = {
     'custom-edge': CustomEdge,
   };
@@ -50,20 +46,78 @@ export default function CreatFlow() {
   const [nodes, setNodes] = useState(initialNodes);
   const [edges, setEdges] = useState([]);
 
+  const nodeTypes = {
+    trigger: TriggerNode,
+    action: ActionNode,
+  };
   const [popup, setPopup] = useState(false);
 
   const onNodesChange = useCallback(
     (changes) => setNodes((nodesSnapshot) => applyNodeChanges(changes, nodesSnapshot)),
     []
   );
-  const onEdgesChange = useCallback(
-    (changes) => setEdges((edgesSnapshot) => applyEdgeChanges(changes, edgesSnapshot)),
-    []
-  );
+  const onEdgesChange = useCallback((changes) => {
+    setEdges((eds) => {
+      let nextEdges = applyEdgeChanges(changes, eds);
+
+      // Check if any edge was removed
+      const removedEdges = changes.filter((c) => c.type === 'remove');
+
+      if (removedEdges.length > 0) {
+        setNodes((nodes) =>
+          nodes.map((node) => {
+            // If this node was a target in the removed edge → disconnect it
+            const wasTarget = removedEdges.some(
+              (edge) => edge.id && eds.find((e) => e.id === edge.id)?.target === node.id
+            );
+
+            if (wasTarget) {
+              return {
+                ...node,
+                data: {
+                  ...node.data,
+                  isConnected: false,
+                  parentId: null,
+                },
+              };
+            }
+            return node;
+          })
+        );
+      }
+
+      return nextEdges;
+    });
+  }, []);
+
   const onConnect = useCallback(
-    (params) =>
-      setEdges((edgesSnapshot) => addEdge({ ...params, type: 'custom-edge' }, edgesSnapshot)),
-    [edges]
+    (params) => {
+      setEdges((prevEdges) => {
+        const newEdges = addEdge({ ...params, type: 'custom-edge' }, prevEdges);
+
+        // Update the target node's data when connected
+        setNodes((nodes) =>
+          nodes.map((node) => {
+            if (node.id === params.target) {
+              return {
+                ...node,
+                data: {
+                  ...node.data,
+                  // ❗ ADD ANYTHING YOU NEED HERE
+                  isConnected: true,
+                  parentId: params.source,
+                  incomingEdge: params,
+                },
+              };
+            }
+            return node;
+          })
+        );
+
+        return newEdges;
+      });
+    },
+    [setNodes]
   );
 
   useEffect(() => {
@@ -84,7 +138,7 @@ export default function CreatFlow() {
       >
         {popup && <PopUp />}
 
-        <AddActionPanel setFlowData={setFlowData} />
+        <AddActionPanel setPopup={setPopup} setFlowData={setFlowData} />
         <Controls />
         <MiniMap />
         <Background gap={12} size={1.3} />
