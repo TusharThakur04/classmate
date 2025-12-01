@@ -17,6 +17,8 @@ import CustomEdge from '@/components/NodeEdge';
 import { AddActionPanel } from '@/components/AddActionButton';
 import { useUser } from '@clerk/nextjs';
 import PopUp from '@/components/PopUp';
+import { CreateFlowPanel } from '@/components/CreateFlowButton';
+import { p } from 'motion/react-client';
 
 export default function CreatFlow() {
   const { user } = useUser();
@@ -50,7 +52,7 @@ export default function CreatFlow() {
     trigger: TriggerNode,
     action: ActionNode,
   };
-  const [popup, setPopup] = useState(false);
+  const [popup, setPopup] = useState({ open: false, message: '' });
 
   const onNodesChange = useCallback(
     (changes) => setNodes((nodesSnapshot) => applyNodeChanges(changes, nodesSnapshot)),
@@ -136,9 +138,10 @@ export default function CreatFlow() {
         onConnect={onConnect}
         fitView
       >
-        {popup && <PopUp />}
+        {popup.open && <PopUp message={popup.message} />}
 
         <AddActionPanel setPopup={setPopup} setFlowData={setFlowData} />
+        <CreateFlowPanel setPopup={setPopup} flowData={flowData} />
         <Controls />
         <MiniMap />
         <Background gap={12} size={1.3} />

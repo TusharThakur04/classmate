@@ -87,9 +87,12 @@ export function ActionNode({ id, data }) {
                 if (isConnected) {
                   setOpen((prev) => !prev);
                 } else {
-                  setPopup(true);
+                  setPopup((prev) => ({
+                    open: true,
+                    message: 'Please connect the action to flow first.',
+                  }));
                   setTimeout(() => {
-                    setPopup(false);
+                    setPopup({ open: false, message: '' });
                   }, 4000);
                 }
               }}
