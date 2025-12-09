@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
-import userRoute from "./routes/userRoute";
-import flowRoute from "./routes/flowRoute";
+import userRoute from "./routes/userRoute.js";
+import flowRoute from "./routes/flowRoute.js";
 
 const app = express();
 

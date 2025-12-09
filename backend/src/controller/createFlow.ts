@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { FlowReqBody } from "../types/dtos";
+import { FlowReqBody } from "../types/dtos.js";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
