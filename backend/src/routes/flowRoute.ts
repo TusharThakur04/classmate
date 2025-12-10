@@ -1,6 +1,6 @@
 import Router from "express";
-import createFlow from "../controller/createFlow";
-import getFlow from "../controller/getFlow";
+import createFlow from "../controller/createFlow.js";
+import getFlow from "../controller/getFlow.js";
 
 const router = Router();
 
