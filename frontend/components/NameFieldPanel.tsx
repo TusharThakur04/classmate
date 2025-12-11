@@ -1,8 +1,17 @@
 'use client';
 
 import { Panel } from '@xyflow/react';
+import axios from 'axios';
 
-export function NameFieldPanel({ setFlowData }: any) {
+export function NameFieldPanel({ setNameFieldOpen, flowData, setFlowData }: any) {
+  const sendData = async () => {
+    try {
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/flows/`, flowData);
+      console.log('Flow created successfully:', res.data);
+    } catch (error) {
+      console.error('Error creating flow:', error);
+    }
+  };
   return (
     <Panel position="top-center">
       <div className="flex w-[20rem] items-center justify-between gap-2 rounded-md bg-white p-4 shadow-md">
@@ -26,6 +35,10 @@ export function NameFieldPanel({ setFlowData }: any) {
             strokeLinecap="round"
             strokeLinejoin="round"
             className="lucide lucide-arrow-right-icon lucide-arrow-right w-[90%] text-neutral-700 transition group-hover:text-neutral-900"
+            onClick={() => {
+              sendData();
+              setNameFieldOpen(false);
+            }}
           >
             <path d="M5 12h14" />
             <path d="m12 5 7 7-7 7" />
