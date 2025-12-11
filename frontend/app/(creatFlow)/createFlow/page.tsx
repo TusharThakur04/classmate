@@ -26,7 +26,7 @@ export default function CreatFlow() {
   const initialFlowData = {
     userId,
     flowName: null,
-    availableTriggerId: null,
+    trigger: { availableTriggerId: null, from: '' },
     action: [],
   };
 
@@ -62,13 +62,11 @@ export default function CreatFlow() {
     setEdges((eds) => {
       let nextEdges = applyEdgeChanges(changes, eds);
 
-      // Check if any edge was removed
       const removedEdges = changes.filter((c) => c.type === 'remove');
 
       if (removedEdges.length > 0) {
         setNodes((nodes) =>
           nodes.map((node) => {
-            // If this node was a target in the removed edge → disconnect it
             const wasTarget = removedEdges.some(
               (edge) => edge.id && eds.find((e) => e.id === edge.id)?.target === node.id
             );
@@ -97,7 +95,6 @@ export default function CreatFlow() {
       setEdges((prevEdges) => {
         const newEdges = addEdge({ ...params, type: 'custom-edge' }, prevEdges);
 
-        // Update the target node's data when connected
         setNodes((nodes) =>
           nodes.map((node) => {
             if (node.id === params.target) {
@@ -105,7 +102,6 @@ export default function CreatFlow() {
                 ...node,
                 data: {
                   ...node.data,
-                  // ❗ ADD ANYTHING YOU NEED HERE
                   isConnected: true,
                   parentId: params.source,
                   incomingEdge: params,

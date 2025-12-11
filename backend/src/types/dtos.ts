@@ -1,7 +1,7 @@
 export interface FlowReqBody {
   userId: string;
   flowName: string;
-  availableTriggerId: number;
+  trigger: { availableTriggerId: number; from: string };
   action: {
     availableActionId: number;
     // actionMetadata: { [key: string]: string };

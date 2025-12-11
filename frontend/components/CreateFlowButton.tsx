@@ -7,7 +7,11 @@ export function CreateFlowPanel({ setNameFieldOpen, flowData, setPopup }: any) {
   const [dataStatus, setDataStatus] = useState('');
 
   useEffect(() => {
-    if (flowData.action.length !== 0 && flowData.availableTriggerId) {
+    if (
+      flowData.action.length !== 0 &&
+      flowData.trigger.availableTriggerId &&
+      flowData.trigger.from !== ''
+    ) {
       setDataStatus('ready');
     } else {
       setDataStatus('not ready');
@@ -15,11 +19,14 @@ export function CreateFlowPanel({ setNameFieldOpen, flowData, setPopup }: any) {
   }, [flowData]);
 
   const handleCreateFlow = () => {
-    if (flowData.action.length === 0) {
+    if (!flowData.trigger.availableTriggerId) {
+      setPopup({ open: true, message: 'Select a trigger for the flow' });
+      setTimeout(() => setPopup({ open: false, message: '' }), 4000);
+    } else if (flowData.action.length === 0) {
       setPopup({ open: true, message: 'Add actions to flow' });
       setTimeout(() => setPopup({ open: false, message: '' }), 4000);
-    } else if (!flowData.availableTriggerId) {
-      setPopup({ open: true, message: 'Select a trigger for the flow' });
+    } else if (flowData.trigger.from == '') {
+      setPopup({ open: true, message: 'Provide email detail' });
       setTimeout(() => setPopup({ open: false, message: '' }), 4000);
     } else {
       setNameFieldOpen(true);

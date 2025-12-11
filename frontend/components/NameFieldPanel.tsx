@@ -10,7 +10,9 @@ export function NameFieldPanel({ setFlowData }: any) {
           type="text"
           placeholder="Enter Flow Name"
           className="flex-1 rounded-md border border-gray-300 p-2"
-          onChange={(e) => setFlowData((prevData: any) => ({ ...prevData, name: e.target.value }))}
+          onChange={(e) =>
+            setFlowData((prevData: any) => ({ ...prevData, flowName: e.target.value }))
+          }
         />
         <div className="group flex aspect-square w-[14%] items-center justify-center rounded-full bg-gray-400/70 transition hover:scale-95">
           <svg

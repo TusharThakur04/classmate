@@ -5,7 +5,9 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 const createFlow = async (req: Request<{}, {}, FlowReqBody>, res: Response) => {
-  const { userId, availableTriggerId, action, flowName } = req.body;
+  const { userId, trigger, action, flowName } = req.body;
+
+  const { availableTriggerId } = trigger;
 
   const flow = await prisma.flow.create({
     data: {
