@@ -1,29 +1,39 @@
-import Router, { Response, Request } from "express";
+import Router, { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 
 const router = Router();
 const prisma = new PrismaClient();
 
 router.post("/mirrorUser", async (req: Request, res: Response) => {
-  const { id, email, name } = req.body;
+  try {
+    const { id, email, name } = req.body;
 
-  const emailExists = await prisma.user.findUnique({
-    where: { email: req.body.email },
-  });
+    if (!id || !email) {
+      return res.status(400).json({ message: "id and email are required" });
+    }
 
-  if (emailExists) {
-    return res.status(400).json({ message: "User already exists" });
+    const userExists = await prisma.user.findUnique({
+      where: { id },
+    });
+
+    if (userExists) {
+      return res.status(409).json({ message: "User already exists" });
+    }
+
+    const newUser = await prisma.user.create({
+      data: { id, email, name },
+    });
+
+    return res.status(201).json({
+      message: "User created",
+      user: newUser,
+    });
+  } catch (err) {
+    console.error("Error in /mirrorUser:", err);
+    return res.status(500).json({
+      message: "Internal server error",
+    });
   }
-
-  const mirrorUser = await prisma.user.create({
-    data: {
-      id,
-      email,
-      name,
-    },
-  });
-
-  res.status(201).json({ message: "User created", mirrorUser });
 });
 
 export default router;

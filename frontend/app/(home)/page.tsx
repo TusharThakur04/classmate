@@ -8,15 +8,33 @@ import { Dashboard } from '@/components/Dashboard';
 export default function Home() {
   const { isSignedIn } = useAuth();
   const { user } = useUser();
+  const userId = user?.id;
 
   useEffect(() => {
-    if (isSignedIn && user) {
-      axios.post('http://localhost:4000/users/mirrorUser', {
-        id: user.id,
-        email: user.primaryEmailAddress?.emailAddress,
-        name: user.fullName,
-      });
-    }
+    if (!isSignedIn || !user) return;
+
+    let hasRun = false;
+
+    const mirrorUser = async () => {
+      if (hasRun) return;
+      hasRun = true;
+
+      try {
+        await axios.post('http://localhost:4000/users/mirrorUser', {
+          id: userId,
+          email: user.primaryEmailAddress?.emailAddress,
+          name: user.fullName,
+        });
+      } catch (err: any) {
+        if (err.response?.status === 409) {
+          console.log('User already exists.');
+        } else {
+          console.error('Error mirroring user:', err);
+        }
+      }
+    };
+
+    mirrorUser();
   }, [isSignedIn, user]);
 
   return (
@@ -28,7 +46,7 @@ export default function Home() {
       </SignedOut>
       <SignedIn>
         <div className="min-h-[78vh] w-full">
-          <Dashboard />
+          <Dashboard userId={userId} />
         </div>
       </SignedIn>
     </>

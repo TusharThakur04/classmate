@@ -7,10 +7,9 @@ import { FlowTable } from './FlowTable';
 import { FlowData } from '../types/flowData';
 import { useRouter } from 'next/navigation';
 
-export const Dashboard = () => {
+export const Dashboard = ({ userId }: any) => {
   const router = useRouter();
   const { user, isLoaded } = useUser();
-  const userId = 'abcd';
 
   const [flow, setFlow] = useState<FlowData[] | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
