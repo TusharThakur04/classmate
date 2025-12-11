@@ -137,6 +137,7 @@ export default function CreatFlow() {
         {popup.open && <PopUp message={popup.message} />}
         {nameFieldOpen && (
           <NameFieldPanel
+            setPopup={setPopup}
             flowData={flowData}
             setNameFieldOpen={setNameFieldOpen}
             setFlowData={setFlowData}

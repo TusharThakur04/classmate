@@ -2,12 +2,15 @@
 
 import { Panel } from '@xyflow/react';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
 
-export function NameFieldPanel({ setNameFieldOpen, flowData, setFlowData }: any) {
+export function NameFieldPanel({ setPopup, setNameFieldOpen, flowData, setFlowData }: any) {
+  const router = useRouter();
   const sendData = async () => {
     try {
       const res = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/flows/`, flowData);
       console.log('Flow created successfully:', res.data);
+      router.push('/');
     } catch (error) {
       console.error('Error creating flow:', error);
     }
@@ -36,6 +39,13 @@ export function NameFieldPanel({ setNameFieldOpen, flowData, setFlowData }: any)
             strokeLinejoin="round"
             className="lucide lucide-arrow-right-icon lucide-arrow-right w-[90%] text-neutral-700 transition group-hover:text-neutral-900"
             onClick={() => {
+              setPopup({ open: true, message: 'Redirecting to Dashboard' });
+              setTimeout(() => {
+                setPopup((prev: any) => ({
+                  ...prev,
+                  open: false,
+                }));
+              }, 5000);
               sendData();
               setNameFieldOpen(false);
             }}
