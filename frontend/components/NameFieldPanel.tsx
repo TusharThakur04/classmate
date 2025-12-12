@@ -8,7 +8,9 @@ export function NameFieldPanel({ setPopup, setNameFieldOpen, flowData, setFlowDa
   const router = useRouter();
   const sendData = async () => {
     try {
+      setPopup({ open: true, message: 'Redirecting to Dashboard' });
       const res = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/flows/`, flowData);
+      setPopup({ open: false, message: '' });
       console.log('Flow created successfully:', res.data);
       router.push('/');
     } catch (error) {
@@ -39,13 +41,6 @@ export function NameFieldPanel({ setPopup, setNameFieldOpen, flowData, setFlowDa
             strokeLinejoin="round"
             className="lucide lucide-arrow-right-icon lucide-arrow-right w-[90%] text-neutral-700 transition group-hover:text-neutral-900"
             onClick={() => {
-              setPopup({ open: true, message: 'Redirecting to Dashboard' });
-              setTimeout(() => {
-                setPopup((prev: any) => ({
-                  ...prev,
-                  open: false,
-                }));
-              }, 5000);
               sendData();
               setNameFieldOpen(false);
             }}
