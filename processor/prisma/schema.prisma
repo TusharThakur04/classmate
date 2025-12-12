@@ -26,7 +26,7 @@ model Flow {
   id        String   @id @default(cuid())
   name      String
   userId    String
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   trigger   Trigger?
   actions   Action[]
   flowRun   FlowRun[]
@@ -42,9 +42,9 @@ model Trigger{
   id                    String @id  @default(cuid())
   metadata              Json?
   flowId                String @unique
-  flow                  Flow   @relation(fields:[flowId], references: [id])
+  flow                  Flow   @relation(fields:[flowId], references: [id],onDelete: Cascade)
   availableTriggerId    Int
-  availableTrigger      AvailableTrigger @relation(fields: [availableTriggerId], references: [id])
+  availableTrigger      AvailableTrigger @relation(fields: [availableTriggerId], references: [id], onDelete: Cascade)
 }
 
 model AvailableAction{
@@ -57,7 +57,7 @@ model Action{
   id                 String @id @default(cuid())
   metadata           Json?
   flowId             String
-  flow               Flow   @relation(fields:[flowId], references: [id])
+  flow               Flow   @relation(fields:[flowId], references: [id],onDelete: Cascade)
   availableActionId  Int
   availableAction    AvailableAction @relation(fields: [availableActionId], references: [id])
   order              Int
