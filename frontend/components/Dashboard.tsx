@@ -80,7 +80,7 @@ export const Dashboard = ({ userId }: any) => {
               <span className="ml-2">Create</span>
             </button>
           </div>
-          <FlowTable flowData={flow} />
+          <FlowTable setFlow={setFlow} flowData={flow} />
         </div>
       )}
     </>
