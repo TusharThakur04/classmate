@@ -14,13 +14,28 @@ datasource db {
 }
 
 model User {
-  id        String   @id
+  id        String   @id 
   email     String   @unique
   name      String
   flows     Flow[]
+  gmailAuth GmailAuth?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+model GmailAuth {
+  id           String   @id @default(cuid())
+  userId       String   @unique
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  accessToken  String
+  refreshToken String
+  expiresAt    DateTime
+
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
 
 model Flow {
   id        String   @id @default(cuid())
