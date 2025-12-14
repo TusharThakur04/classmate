@@ -1,10 +1,36 @@
-import { useState } from 'react';
+import { use, useEffect, useState } from 'react';
 import { Handle, Position } from '@xyflow/react';
+import { useRouter } from 'next/navigation';
+import axios from 'axios';
 
 export function TriggerNode({ data }: { data: any }) {
+  const router = useRouter();
   const { setFlowData } = data;
   const [open, setOpen] = useState({ triggerOptions: false, emailFromInput: false });
   const [trigger, setTrigger] = useState(false);
+  const [isGmailConnected, setIsGmailConnected] = useState(false);
+
+  useEffect(() => {
+    async function checkGmailConnection() {
+      try {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/gmail`, {
+          withCredentials: true,
+        });
+
+        if (response.data.connected) {
+          setIsGmailConnected(true);
+        } else {
+          setIsGmailConnected(false);
+        }
+        console.log('Gmail connection status:', isGmailConnected);
+      } catch (error) {
+        console.error('Error checking Gmail connection:', error);
+        setIsGmailConnected(false);
+      }
+    }
+
+    checkGmailConnection();
+  }, [data.userId]);
 
   return (
     <div className="relative h-10 w-35 rounded border border-gray-500 bg-white p-2 shadow-lg">
@@ -67,6 +93,10 @@ export function TriggerNode({ data }: { data: any }) {
 
           <div
             onClick={() => {
+              if (!isGmailConnected) {
+                router.push(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/google`);
+                return;
+              }
               setTrigger((prev) => !prev);
               setOpen({ triggerOptions: false, emailFromInput: true });
               setFlowData((prev: any) => {
