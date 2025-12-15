@@ -14,13 +14,16 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@prisma/client": "^6.16.2"
+    "@prisma/client": "^6.16.2",
+    "axios": "^1.13.2",
+    "node-cron": "^4.2.1",
+    "dotenv": "^17.2.3"
   },
   "devDependencies": {
     "@types/node": "^25.0.2",
+    "prisma": "^6.16.2",
     "ts-node": "^10.9.2",
     "tsx": "^4.21.0",
-    "typescript": "^5.9.3",
-    "prisma": "^6.16.2"
+    "typescript": "^5.9.3"
   }
 }
