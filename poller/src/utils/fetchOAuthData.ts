@@ -23,19 +23,22 @@ const fetchOAuthlData = async () => {
           },
         },
       },
+      metadata: true,
     },
   });
 
   const oAuthData = userData.map((trigger: any) => {
+    const from = trigger.metadata.senderEmail;
     const gmailAuth = trigger.flow.user.gmailAuth;
     return {
+      from,
       accessToken: gmailAuth?.accessToken,
       refreshToken: gmailAuth?.refreshToken,
       expiresAt: gmailAuth?.expiresAt,
     };
   });
 
-  // console.log("Polling Data:", pollingData);
+  console.log("Polling Data:", oAuthData);
 
   return oAuthData;
 };

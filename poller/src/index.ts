@@ -13,10 +13,11 @@ const task = cron.schedule("* * * * *", async () => {
     return;
   }
 
-  console.log("Polling Dataaaaaaa:", oAuthData);
+  // console.log("Polling Dataaaaaaa:", oAuthData);
 
   for (const auth of oAuthData) {
     let accessToken = auth.accessToken;
+    const from = auth.from;
 
     // refresh token if expired
 
@@ -33,7 +34,7 @@ const task = cron.schedule("* * * * *", async () => {
 
     if (accessToken) {
       try {
-        const gmailData = await callGmailAPI(accessToken);
+        const gmailData = await callGmailAPI(accessToken, from);
         console.log("Gmail Data:", gmailData);
       } catch (error) {
         console.error("Error fetching Gmail data:", error);

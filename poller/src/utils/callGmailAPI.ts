@@ -1,8 +1,6 @@
-import axios from "axios";
-
-const callGmailAPI = async (accessToken: string) => {
+const callGmailAPI = async (accessToken: string, from: string) => {
   const response = await fetch(
-    "https://www.googleapis.com/gmail/v1/users/me/messages?maxResults=1",
+    `https://gmail.googleapis.com/gmail/v1/users/me/messages?q=from:${from}`,
     {
       headers: {
         Authorization: `Bearer ${accessToken}`,
