@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-const updateDB = async (refreshToken: any, newTokens: any) => {
+const updateAccessToken = async (refreshToken: any, newTokens: any) => {
   try {
     await prisma.gmailAuth.updateMany({
       where: { refreshToken },
@@ -16,4 +16,4 @@ const updateDB = async (refreshToken: any, newTokens: any) => {
   }
 };
 
-export default updateDB;
+export default updateAccessToken;

@@ -63,6 +63,8 @@ const callGmailAPI = async (
     console.log(mailIds);
   }
 
+  console.log("no new mails from the selected sender");
+
   return;
 };
 

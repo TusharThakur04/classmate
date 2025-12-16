@@ -3,7 +3,7 @@ import cron from "node-cron";
 import refreshAccessToken from "./utils/refreshToken.js";
 import fetchOAuthlData from "./utils/fetchOAuthData.js";
 import callGmailAPI from "./utils/callGmailAPI.js";
-import updateDB from "./utils/updateDB.js";
+import updateAccessToken from "./utils/updateAccessToken.js";
 
 const task = cron.schedule(" * * * * *", async () => {
   const oAuthData = await fetchOAuthlData();
@@ -30,7 +30,7 @@ const task = cron.schedule(" * * * * *", async () => {
 
       // update tokens in database
 
-      updateDB(auth.refreshToken, newTokens);
+      updateAccessToken(auth.refreshToken, newTokens);
     }
 
     if (accessToken) {
