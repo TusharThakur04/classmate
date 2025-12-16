@@ -17,6 +17,7 @@ const fetchOAuthlData = async () => {
                   accessToken: true,
                   refreshToken: true,
                   expiresAt: true,
+                  historyId: true,
                 },
               },
             },
@@ -35,6 +36,7 @@ const fetchOAuthlData = async () => {
       accessToken: gmailAuth?.accessToken,
       refreshToken: gmailAuth?.refreshToken,
       expiresAt: gmailAuth?.expiresAt,
+      historyId: gmailAuth?.historyId,
     };
   });
 

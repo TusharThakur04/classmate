@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { a } from "motion/react-client";
 
 const redirectToGoogle = (req: Request, res: Response) => {
   const auth = req.auth();

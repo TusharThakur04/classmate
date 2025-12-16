@@ -5,7 +5,7 @@ import fetchOAuthlData from "./utils/fetchOAuthData.js";
 import callGmailAPI from "./utils/callGmailAPI.js";
 import updateDB from "./utils/updateDB.js";
 
-const task = cron.schedule("* * * * *", async () => {
+const task = cron.schedule(" * * * * *", async () => {
   const oAuthData = await fetchOAuthlData();
 
   if (!oAuthData || oAuthData.length === 0) {
@@ -18,6 +18,7 @@ const task = cron.schedule("* * * * *", async () => {
   for (const auth of oAuthData) {
     let accessToken = auth.accessToken;
     const from = auth.from;
+    const historyId = auth.historyId;
 
     // refresh token if expired
 
@@ -34,8 +35,8 @@ const task = cron.schedule("* * * * *", async () => {
 
     if (accessToken) {
       try {
-        const gmailData = await callGmailAPI(accessToken, from);
-        console.log("Gmail Data:", gmailData);
+        const gmailData = await callGmailAPI(accessToken, from, historyId);
+        // console.log("Gmail Data:", gmailData);
       } catch (error) {
         console.error("Error fetching Gmail data:", error);
       }
