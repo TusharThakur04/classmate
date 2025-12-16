@@ -1,6 +1,7 @@
 import axios from "axios";
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
+import storeHistoryId from "../utils/storeHistrotyId.js";
 
 const oAuth = async (req: Request, res: Response) => {
   const prisma = new PrismaClient();
@@ -38,6 +39,20 @@ const oAuth = async (req: Request, res: Response) => {
         expiresAt: new Date(Date.now() + expires_in * 1000),
       },
     });
+
+    const history = await axios.get(
+      "https://www.googleapis.com/gmail/v1/users/me/profile",
+      {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      }
+    );
+    // storing historyId to always create flow for latest emails
+
+    const historyId = history.data.historyId;
+
+    await storeHistoryId(userId, historyId);
 
     res.redirect("http://localhost:3000/createFlow");
   } catch (err) {
