@@ -20,8 +20,10 @@ const fetchOAuthlData = async () => {
                   historyId: true,
                 },
               },
+              id: true,
             },
           },
+          id: true,
         },
       },
       metadata: true,
@@ -31,7 +33,11 @@ const fetchOAuthlData = async () => {
   const oAuthData = userData.map((trigger: any) => {
     const from = trigger.metadata.senderEmail;
     const gmailAuth = trigger.flow.user.gmailAuth;
+    const userId = trigger.flow.user.id;
+    const flowId = trigger.flow.id;
     return {
+      userId,
+      flowId,
       from,
       accessToken: gmailAuth?.accessToken,
       refreshToken: gmailAuth?.refreshToken,

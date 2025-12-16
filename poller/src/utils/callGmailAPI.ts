@@ -31,7 +31,7 @@ const callGmailAPI = async (
       (h.messagesAdded || []).map((m: any) => m.message.id)
     );
 
-    // console.log("new mail ids--", newMailIds);
+    console.log("new mail ids--", newMailIds);
 
     // console.log("newMsg:", newMsg);
 
@@ -47,7 +47,7 @@ const callGmailAPI = async (
     const senderMailsIds = allMailsFromSender.data.messages.map(
       (msg: any) => msg.id
     );
-    // console.log("new main ids from sender --", senderMailsIds);
+    console.log("mail ids from sender --", senderMailsIds);
 
     // checking if new msg ids contains msg ids from sender
 
@@ -60,12 +60,14 @@ const callGmailAPI = async (
         mailIds.push(id);
       }
     }
-    console.log(mailIds);
+    console.log("new mailIds from sender", mailIds);
+
+    return mailIds;
   }
 
   console.log("no new mails from the selected sender");
 
-  return;
+  return [];
 };
 
 export default callGmailAPI;
