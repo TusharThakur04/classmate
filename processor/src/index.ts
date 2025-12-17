@@ -1,5 +1,5 @@
-import prisma from "../lib/prisma";
-import kafka from "../lib/kafka";
+import prisma from "./lib/prisma.js";
+import kafka from "./lib/kafka.js";
 
 const producer = kafka.producer();
 
