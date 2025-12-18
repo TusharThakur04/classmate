@@ -1,4 +1,5 @@
 import { Kafka } from "kafkajs";
+import fetchFlowData from "./utils/fetchFlowRunData.js";
 
 const kafka = new Kafka({
   clientId: "flow-outbox",
@@ -13,11 +14,14 @@ const run = async () => {
 
   await consumer.run({
     eachMessage: async ({ topic, partition, message }) => {
-      console.log({
-        partition,
-        offset: message.offset,
-        value: message.value?.toString(),
-      });
+      const flowRunId = message.value?.toString();
+      if (!flowRunId) return;
+
+      console.log("processing flowRun:", flowRunId);
+
+      //fetch data
+
+      const FlowRundata = await fetchFlowData(flowRunId);
 
       await new Promise((resolve) => setTimeout(resolve, 5000));
 
