@@ -9,16 +9,17 @@ const startProcessor = async () => {
       take: 10,
     });
 
+    if (outbox.length === 0) continue;
     console.log(outbox);
 
     await producer.connect();
     await producer.send({
       topic: "outbox-flow",
-      messages: outbox.map((obj) => {
-        return { value: obj.flowRunId };
-      }),
+      messages: outbox.map((o) => ({
+        key: o.flowRunId,
+        value: o.flowRunId,
+      })),
     });
-
     console.log("sent");
 
     await prisma.flowRunOutbox.deleteMany({

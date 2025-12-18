@@ -4,15 +4,17 @@ import { PrismaClient } from "@prisma/client";
 const router = Router();
 const prisma = new PrismaClient();
 
-router.post("/:userid/:flowid", async (req, res) => {
+router.post("/:userId/:flowId", async (req, res) => {
   const data = req.body;
-  const { userid, flowid } = req.params;
+  const { userId, flowId } = req.params;
 
   await prisma.$transaction(async (tx) => {
     const flowRun = await tx.flowRun.create({
       data: {
-        flowId: flowid,
-        metadata: data,
+        flowId,
+        metadata: {
+          mailIds: data,
+        },
       },
     });
 
