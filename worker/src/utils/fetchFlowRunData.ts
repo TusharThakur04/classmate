@@ -1,5 +1,4 @@
-import FlowRunMetadata from "../dto/FlowData.js";
-import FlowRunData from "../dto/FlowData.js";
+import { FlowRun } from "../dto/FlowData.js";
 import prisma from "../lib/PrismaClient.js";
 
 const fetchFlowData = async (flowRunId: string) => {
@@ -40,9 +39,9 @@ const fetchFlowData = async (flowRunId: string) => {
   });
 
   if (flowRun !== null) {
-    const data = {
+    const data: FlowRun = {
       flowRunId: flowRun.id,
-      mailIds: (flowRun.metadata as FlowRunMetadata).mailIds,
+      context: flowRun.metadata,
 
       gmailAuth: {
         accessToken: flowRun.flow.user.gmailAuth?.accessToken,
@@ -50,9 +49,9 @@ const fetchFlowData = async (flowRunId: string) => {
         expiresAt: flowRun.flow.user.gmailAuth?.expiresAt,
       },
 
-      actions: flowRun.flow.actions.map((action: any) => ({
+      actions: flowRun.flow.actions.map((action) => ({
         type: action.availableAction.actionName,
-        metadata: action.metadata,
+        config: action?.metadata,
         order: action.order,
       })),
     };
