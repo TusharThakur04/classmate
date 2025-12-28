@@ -6,7 +6,7 @@ import callGmailAPI from "./utils/callGmailAPI.js";
 import updateAccessToken from "./utils/updateAccessToken.js";
 import makeRequestToHooksServer from "./utils/makeRequestToHookServer.js";
 
-const task = cron.schedule(" */20 * * * * *", async () => {
+const task = cron.schedule("  * * * * *", async () => {
   const oAuthData = await fetchOAuthlData();
 
   if (!oAuthData || oAuthData.length === 0) {
