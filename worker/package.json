@@ -15,11 +15,13 @@
   "description": "",
   "dependencies": {
     "@prisma/client": "^6.16.2",
+    "axios": "^1.13.2",
     "dotenv": "^17.2.2",
     "kafkajs": "^2.2.4",
     "tsx": "^4.21.0"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.19",
     "@types/node": "^24.5.2",
     "prisma": "^6.16.2",
     "ts-node-dev": "^2.0.0",
