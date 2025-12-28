@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 
 const getFlow = async (req: Request<{ userId: string }>, res: Response) => {
   const userId = req.params.userId;
-  console.log(userId);
+  console.log("fetching flows for :", userId);
 
   const flowData = await prisma.flow.findMany({
     where: { userId },

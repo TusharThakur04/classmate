@@ -32,7 +32,7 @@ const run = async () => {
       const actions = flowRunData.actions;
       const actionContext = {
         flowRunId: flowRunData.flowRunId,
-        context: flowRunData.context,
+        metadata: flowRunData.metadata,
         gmailAuth: flowRunData.gmailAuth,
       };
 

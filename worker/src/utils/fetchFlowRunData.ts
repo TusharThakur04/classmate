@@ -1,8 +1,8 @@
-import { FlowRun } from "../dto/FlowData.js";
+import { FlowRunData } from "../dto/FlowData.js";
 import prisma from "../lib/PrismaClient.js";
 
 const fetchFlowData = async (flowRunId: string) => {
-  const flowRun = await prisma.flowRun.findUnique({
+  const flowRunData = await prisma.flowRun.findUnique({
     where: { id: flowRunId },
     select: {
       id: true,
@@ -38,18 +38,18 @@ const fetchFlowData = async (flowRunId: string) => {
     },
   });
 
-  if (flowRun !== null) {
-    const data: FlowRun = {
-      flowRunId: flowRun.id,
-      context: flowRun.metadata,
+  if (flowRunData !== null) {
+    const data: FlowRunData = {
+      flowRunId: flowRunData.id,
+      metadata: flowRunData.metadata,
 
       gmailAuth: {
-        accessToken: flowRun.flow.user.gmailAuth?.accessToken,
-        refreshToken: flowRun.flow.user.gmailAuth?.refreshToken,
-        expiresAt: flowRun.flow.user.gmailAuth?.expiresAt,
+        accessToken: flowRunData.flow.user.gmailAuth?.accessToken,
+        refreshToken: flowRunData.flow.user.gmailAuth?.refreshToken,
+        expiresAt: flowRunData.flow.user.gmailAuth?.expiresAt,
       },
 
-      actions: flowRun.flow.actions.map((action) => ({
+      actions: flowRunData.flow.actions.map((action) => ({
         type: action.availableAction.actionName,
         config: action?.metadata,
         order: action.order,

@@ -6,10 +6,10 @@ interface Action {
   order: number;
 }
 
-export interface FlowRun {
+export interface FlowRunData {
   flowRunId: string;
 
-  context: FlowRunMetadata;
+  metadata: FlowRunMetadata;
 
   gmailAuth: {
     accessToken?: string;
@@ -22,7 +22,7 @@ export interface FlowRun {
 
 export interface ActionContext {
   flowRunId: string;
-  context: FlowRunMetadata;
+  metadata: FlowRunMetadata;
   gmailAuth: {
     accessToken?: string;
     refreshToken?: string;
