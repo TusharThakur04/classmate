@@ -33,7 +33,7 @@ const task = cron.schedule("  * * * * *", async () => {
 
       // update tokens in database
 
-      updateAccessToken(auth.refreshToken, newTokens);
+      await updateAccessToken(auth.refreshToken, newTokens);
     }
 
     if (accessToken) {
