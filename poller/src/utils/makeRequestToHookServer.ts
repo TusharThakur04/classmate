@@ -9,7 +9,7 @@ const makeRequestToHooksServer = async (
   try {
     const { data } = await axios.post(
       `${process.env.HOOKSSERVER_URL}/flows/${userId}/${flowId}`,
-      { ids: mailId }
+      { mailId }
     );
 
     return data;

@@ -12,9 +12,7 @@ router.post("/:userId/:flowId", async (req, res) => {
     const flowRun = await tx.flowRun.create({
       data: {
         flowId,
-        metadata: {
-          mailIds: data,
-        },
+        metadata: data,
       },
     });
 
