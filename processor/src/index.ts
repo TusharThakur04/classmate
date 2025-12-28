@@ -9,7 +9,10 @@ const startProcessor = async () => {
       take: 10,
     });
 
-    if (outbox.length === 0) continue;
+    if (outbox.length === 0) {
+      await new Promise((resolve) => setTimeout(resolve, 10000));
+      continue;
+    }
     console.log(outbox);
 
     await producer.connect();
@@ -32,6 +35,7 @@ const startProcessor = async () => {
 
     console.log("deleted the pushed flow from flowRunOutbox");
     await producer.disconnect();
+    await new Promise((resolve) => setTimeout(resolve, 5000));
   }
 };
 
