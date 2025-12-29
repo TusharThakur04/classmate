@@ -1,3 +1,4 @@
+import "dotenv/config";
 import { Kafka } from "kafkajs";
 import fetchFlowData from "./utils/fetchFlowRunData.js";
 import { actionRegistry } from "./utils/actionMaps.js";
