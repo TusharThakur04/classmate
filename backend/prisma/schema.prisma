@@ -83,7 +83,7 @@ model Action{
 model FlowRun{
   id             String         @id @default(cuid())
   flowId         String
-  flow           Flow           @relation(fields: [flowId], references: [id])
+  flow           Flow           @relation(fields: [flowId], references: [id],onDelete: Cascade)
   metadata       Json
   flowRunOutbox  FlowRunOutbox?
 }
