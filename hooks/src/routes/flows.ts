@@ -2,9 +2,10 @@ import Router from "express";
 import { PrismaClient } from "@prisma/client";
 
 const router = Router();
-const prisma = new PrismaClient();
 
 router.post("/:userId/:flowId", async (req, res) => {
+  const prisma = new PrismaClient();
+
   const data = req.body;
   const { userId, flowId } = req.params;
 
