@@ -12,9 +12,9 @@ export interface FlowRunData {
   metadata: FlowRunMetadata;
 
   gmailAuth: {
-    accessToken?: string;
-    refreshToken?: string;
-    expiresAt?: Date;
+    accessToken: string;
+    refreshToken: string;
+    expiresAt: Date;
   };
 
   actions: Action[];
@@ -24,9 +24,9 @@ export interface ActionContext {
   flowRunId: string;
   metadata: FlowRunMetadata;
   gmailAuth: {
-    accessToken?: string;
-    refreshToken?: string;
-    expiresAt?: Date;
+    accessToken: string;
+    refreshToken: string;
+    expiresAt: Date;
   };
 }
 
