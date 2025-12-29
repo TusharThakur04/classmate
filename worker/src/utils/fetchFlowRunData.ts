@@ -39,14 +39,19 @@ const fetchFlowData = async (flowRunId: string) => {
   });
 
   if (flowRunData !== null) {
+    const gmailAuth = flowRunData.flow.user.gmailAuth;
+
+    if (!gmailAuth) {
+      throw new Error("error while obtaining gmailAuth");
+    }
     const data: FlowRunData = {
       flowRunId: flowRunData.id,
       metadata: flowRunData.metadata,
 
       gmailAuth: {
-        accessToken: flowRunData.flow.user.gmailAuth?.accessToken,
-        refreshToken: flowRunData.flow.user.gmailAuth?.refreshToken,
-        expiresAt: flowRunData.flow.user.gmailAuth?.expiresAt,
+        accessToken: gmailAuth.accessToken,
+        refreshToken: gmailAuth.refreshToken,
+        expiresAt: gmailAuth.expiresAt,
       },
 
       actions: flowRunData.flow.actions.map((action) => ({
