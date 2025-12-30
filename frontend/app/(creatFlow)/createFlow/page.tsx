@@ -8,6 +8,7 @@ import {
   Controls,
   MiniMap,
   Background,
+  Edge,
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { TriggerNode } from '@/components/TriggerNode';
@@ -45,7 +46,7 @@ export default function CreatFlow() {
   ];
 
   const [nodes, setNodes] = useState(initialNodes);
-  const [edges, setEdges] = useState([]);
+  const [edges, setEdges] = useState<Edge[]>([]);
 
   const nodeTypes = {
     trigger: TriggerNode,
@@ -55,20 +56,20 @@ export default function CreatFlow() {
   const [nameFieldOpen, setNameFieldOpen] = useState(false);
 
   const onNodesChange = useCallback(
-    (changes) => setNodes((nodesSnapshot) => applyNodeChanges(changes, nodesSnapshot)),
+    (changes: any) => setNodes((nodesSnapshot) => applyNodeChanges(changes, nodesSnapshot)),
     []
   );
-  const onEdgesChange = useCallback((changes) => {
+  const onEdgesChange = useCallback((changes: any) => {
     setEdges((eds) => {
       let nextEdges = applyEdgeChanges(changes, eds);
 
-      const removedEdges = changes.filter((c) => c.type === 'remove');
+      const removedEdges = changes.filter((c: any) => c.type === 'remove');
 
       if (removedEdges.length > 0) {
         setNodes((nodes) =>
           nodes.map((node) => {
             const wasTarget = removedEdges.some(
-              (edge) => edge.id && eds.find((e) => e.id === edge.id)?.target === node.id
+              (edge: any) => edge.id && eds.find((e) => e.id === edge.id)?.target === node.id
             );
 
             if (wasTarget) {
@@ -91,7 +92,7 @@ export default function CreatFlow() {
   }, []);
 
   const onConnect = useCallback(
-    (params) => {
+    (params: any) => {
       setEdges((prevEdges) => {
         const newEdges = addEdge({ ...params, type: 'custom-edge' }, prevEdges);
 
