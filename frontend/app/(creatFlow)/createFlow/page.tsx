@@ -1,7 +1,5 @@
 'use client';
-import { useState, useCallback, useEffect } from 'react';
-import type { Edge } from '@xyflow/react';
-
+import { useState, useCallback, useEffect, useMemo } from 'react';
 import {
   ReactFlow,
   applyNodeChanges,
@@ -47,7 +45,7 @@ export default function CreatFlow() {
   ];
 
   const [nodes, setNodes] = useState(initialNodes);
-  const [edges, setEdges] = useState<Edge[]>([]);
+  const [edges, setEdges] = useState([]);
 
   const nodeTypes = {
     trigger: TriggerNode,
@@ -57,10 +55,10 @@ export default function CreatFlow() {
   const [nameFieldOpen, setNameFieldOpen] = useState(false);
 
   const onNodesChange = useCallback(
-    (changes: any) => setNodes((nodesSnapshot) => applyNodeChanges(changes, nodesSnapshot)),
+    (changes) => setNodes((nodesSnapshot) => applyNodeChanges(changes, nodesSnapshot)),
     []
   );
-  const onEdgesChange = useCallback((changes: any) => {
+  const onEdgesChange = useCallback((changes) => {
     setEdges((eds) => {
       let nextEdges = applyEdgeChanges(changes, eds);
 
@@ -70,7 +68,7 @@ export default function CreatFlow() {
         setNodes((nodes) =>
           nodes.map((node) => {
             const wasTarget = removedEdges.some(
-              (edge: any) => edge.id && eds.find((e) => e.id === edge.id)?.target === node.id
+              (edge) => edge.id && eds.find((e) => e.id === edge.id)?.target === node.id
             );
 
             if (wasTarget) {
@@ -93,7 +91,7 @@ export default function CreatFlow() {
   }, []);
 
   const onConnect = useCallback(
-    (params: any) => {
+    (params) => {
       setEdges((prevEdges) => {
         const newEdges = addEdge({ ...params, type: 'custom-edge' }, prevEdges);
 

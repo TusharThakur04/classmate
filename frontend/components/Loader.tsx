@@ -1,8 +1,8 @@
 'use client';
-import { motion, Transition } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 export const Loader = () => {
-  const transition = (x: number): Transition => {
+  const transition = (x: number) => {
     return {
       duration: 1,
       repeat: Infinity,
