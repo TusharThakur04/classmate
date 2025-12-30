@@ -54,7 +54,7 @@ const oAuth = async (req: Request, res: Response) => {
 
     await storeHistoryId(userId, historyId);
 
-    res.redirect("http://localhost:3000/createFlow");
+    res.redirect(`${process.env.FRONTEND_URL}/createFlow`);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "OAuth failed" });

@@ -5,7 +5,7 @@ import { actionRegistry } from "./utils/actionMaps.js";
 
 const kafka = new Kafka({
   clientId: "flow-outbox",
-  brokers: ["localhost:9092"],
+  brokers: [`${process.env.KAFKA_URL}`],
 });
 
 const consumer = kafka.consumer({ groupId: "worker-1" });
@@ -45,8 +45,6 @@ const run = async () => {
 
         await handler(actionContext);
       }
-
-      await new Promise((resolve) => setTimeout(resolve, 5000));
 
       await consumer.commitOffsets([
         { topic, partition, offset: (Number(message.offset) + 1).toString() },
