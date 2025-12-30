@@ -2,7 +2,7 @@ import { Kafka } from "kafkajs";
 
 const kafka = new Kafka({
   clientId: "flow-outbox",
-  brokers: ["localhost:9092"],
+  brokers: [`${process.env.KAFKA_URL}`],
 });
 
 export default kafka;
