@@ -11,7 +11,7 @@ export function NameFieldPanel({ setPopup, setNameFieldOpen, flowData, setFlowDa
       setPopup({ open: true, message: 'Redirecting to Dashboard' });
       const res = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/flows/`, flowData);
       setPopup({ open: false, message: '' });
-      console.log('Flow created successfully:', res.data);
+      console.log('Flow created successfullyy:', res.data);
       router.push('/');
     } catch (error) {
       console.error('Error creating flow:', error);
