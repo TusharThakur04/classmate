@@ -17,7 +17,7 @@ export const Dashboard = ({ userId }: any) => {
 
   const getFlowData = async () => {
     try {
-      const response = await axios.get(`http://localhost:4000/flows/${userId}`);
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/flows/${userId}`);
       console.log('Flow Data:', response.data);
       setFlow(response.data.flowData);
       setIsLoading(false);

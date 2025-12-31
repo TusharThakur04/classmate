@@ -20,7 +20,7 @@ export default function Home() {
       hasRun = true;
 
       try {
-        await axios.post('http://localhost:4000/users/mirrorUser', {
+        await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/mirrorUser`, {
           id: userId,
           email: user.primaryEmailAddress?.emailAddress,
           name: user.fullName,
