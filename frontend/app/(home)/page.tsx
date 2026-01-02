@@ -45,7 +45,7 @@ export default function Home() {
         </div>
       </SignedOut>
       <SignedIn>
-        <div className="min-h-[78vh] w-full">
+        <div className="min-h-[85vh] w-full">
           <Dashboard userId={userId} />
         </div>
       </SignedIn>
