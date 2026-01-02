@@ -47,21 +47,20 @@ const SetReminder: ActionHandler = async (ctx) => {
   if (message) {
     console.log("message---", message);
 
-    const start = new Date();
+    const start = new Date().toISOString();
 
     // extracting deadlline from message body
 
     const deadline = await extractDeadline(message);
 
-    if (
-      deadline === "no deadline" ||
-      deadline === undefined ||
-      deadline === null
-    ) {
+    if (deadline === null) {
+      console.log("no deadline was found");
       return;
     }
 
-    const end = new Date(deadline);
+    console.log("submission deadline---", deadline);
+
+    const end = deadline;
 
     await axios.post(
       "https://www.googleapis.com/calendar/v3/calendars/primary/events",
@@ -69,12 +68,10 @@ const SetReminder: ActionHandler = async (ctx) => {
         summary: "assignment",
         description: "",
         start: {
-          dateTime: start.toISOString(),
-          timeZone: "Asia/Kolkata",
+          dateTime: start,
         },
         end: {
-          dateTime: end.toISOString(),
-          timeZone: "Asia/Kolkata",
+          dateTime: end,
         },
 
         //reminders on day before and 30 mins before

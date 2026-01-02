@@ -14,11 +14,9 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@azure-rest/ai-inference": "latest",
-    "@azure/core-auth": "latest",
-    "@azure/core-sse": "latest",
     "@prisma/client": "^6.16.2",
     "axios": "^1.13.2",
+    "chrono-node": "^2.9.0",
     "dotenv": "^17.2.3",
     "kafkajs": "^2.2.4",
     "tsx": "^4.21.0"
