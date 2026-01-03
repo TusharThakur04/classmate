@@ -40,7 +40,7 @@ export default function Home() {
   return (
     <>
       <SignedOut>
-        <div className="min-h-[85vh] w-full">
+        <div className="h-[85vh] w-full">
           <Hero />
         </div>
       </SignedOut>

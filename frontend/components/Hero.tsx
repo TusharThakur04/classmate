@@ -8,7 +8,7 @@ export const Hero = () => {
 
   return (
     <>
-      <main className="relative flex items-center justify-center px-6">
+      <main className="relative flex h-full items-center justify-center px-6">
         <div className="absolute inset-0 -z-10 bg-linear-to-b from-blue-200 via-blue-100 to-white" />
 
         <section className="mx-auto max-w-4xl text-center">
