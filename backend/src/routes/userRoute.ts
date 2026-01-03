@@ -13,11 +13,12 @@ router.post("/mirrorUser", async (req: Request, res: Response) => {
     }
 
     const userExists = await prisma.user.findUnique({
-      where: { id },
+      where: { email },
     });
 
     if (userExists) {
-      return res.status(409).json({ message: "User already exists" });
+      res.status(409).json({ message: "User already exists" });
+      return;
     }
 
     const newUser = await prisma.user.create({
